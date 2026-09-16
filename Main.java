@@ -5,9 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.File;
-import java.io.FileReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -32,21 +30,28 @@ public class Main {
     if (parseArgs(args)) {
       System.exit(0);
     }
-    //    long t1 = System.currentTimeMillis();
+        long t1 = System.currentTimeMillis();
     BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in, "UTF-8"));
     // Säkrast att specificera att UTF-8 ska användas, för vissa system har annan
     // standardinställning för teckenkodningen.
+    long t2 = System.currentTimeMillis();
     List<String> wordList = readWordList(stdin);
+    long tottimet2 = (System.currentTimeMillis() - t2);
+    
     String word;
     while ((word = stdin.readLine()) != null) {
+      long qStart = System.currentTimeMillis();
       ClosestWords closestWords = new ClosestWords(word, wordList);
+      long qTime = System.currentTimeMillis() - qStart;
+      System.out.println(word + ": " + qTime + " ms, dist=" + closestWords.getMinDistance());
       System.out.print(word + " (" + closestWords.getMinDistance() + ")");
-      for (String w : closestWords.getClosestWords())
-        System.out.print(" " + w);
-      System.out.println();
+     // for (String w : closestWords.getClosestWords())
+      //  System.out.print(" " + w);
+      //  System.out.println();
     }
-    //    long tottime = (System.currentTimeMillis() - t1);
-    //    System.out.println("CPU time: " + tottime + " ms");
+        long tottimet1 = (System.currentTimeMillis() - t1);
+        System.out.println("CPU time for t1: " + tottimet1 + " ms");
+        System.out.println("CPU time for t2: " + tottimet2 + " ms");
 
   }
 
@@ -124,7 +129,7 @@ public class Main {
       System.out.println("Could not read the wordList of this testcase.");
       System.exit(1);
     }
-      String word;
+    String word;
     try {
       while ((word = inFile.readLine()) != null) {
         ClosestWords closestWords = new ClosestWords(word, wordList);
