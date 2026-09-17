@@ -1,0 +1,6 @@
+We started with the original code which was very slow.
+We then implemented partDist using matrix calculations instead of recursion. The matrix calculations was the most significant speedup
+We then stopped or skipped the calculations if the distance could not be shorter than the current best. This had a speedup of around 5x.
+We realized that this was not going to work because it took us around 8 seconds to go through 500k words with 100 queries.
+We then grouped each word by length in order to be able to not have to go thorugh the whole list of words.
+This created a speedup of around 8x which was enough to pass all kattis test (last test was 1.01 s)
